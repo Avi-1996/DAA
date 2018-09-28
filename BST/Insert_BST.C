@@ -22,7 +22,7 @@ void main()
 }
 void insert_tree(node **root)
 {
-	node *ptr,*parloc;
+	node *ptr,*parloc,*temp;
 	int loc;
 	ptr=(node*)malloc(sizeof(node));
 	scanf("%d",&ptr->key);
@@ -35,8 +35,9 @@ void insert_tree(node **root)
 	}
 	else
 	{
-		loc = search(root,ptr->key,&parloc);
-		if(loc != -1)
+		temp = (*root);
+		loc = search(temp,ptr->key,&parloc);
+		if(loc != 0)
 			printf("Value Already Exist");
 		else
 		{
@@ -67,7 +68,6 @@ int search(node *root,int item,node **parloc)
 		{
 			if( item > root->key)
 			{
-				printf("%d     %d",item,root->key);
 				*parloc=root;
 				root=root->right;
 			}
