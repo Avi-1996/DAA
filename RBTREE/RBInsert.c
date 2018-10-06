@@ -1,8 +1,7 @@
 #include<stdio.h>
-
 #include<conio.h>
 #define red 1
-#definr black 0
+#define black 0
 
 typedef struct nodetype
 
@@ -17,8 +16,9 @@ typedef struct nodetype
 	struct nodetype *parent;
 
 	int key;
-
 }node;
+
+void left_rotate(node **root,node *x);
 
 void RBinsert(node **root);
 
@@ -177,10 +177,11 @@ void inorder(node *root)
 
 	{
 
+
+
+		printf("x = %d parent = %d color = %d",root->key,root->parent,root->color);
+
 		inorder(root->left);
-
-		printf("%d ",root->key);
-
 		inorder(root->right);
 
 	}
@@ -189,9 +190,78 @@ void inorder(node *root)
 
 void RBinsert(node **root)
 {
-	node *loc;
-	loc = insert_tree(root);
-	loc->color = red;
-	while()
+	node *x,*y;
+	x = insert_tree(root);
+	x->color = red;
+	while(x != (*root) && (x->parent)->color == red)
+	{
+		if(x->parent == (x->parent->parent)->right)
+		{
+			y = x->parent->parent->right;
+			if(y->color == red)
+			{
+				x->parent->color = black;
+				y->color = black;
+				x->parent->parent->color = red;
+				x = x->parent->parent;
+			}
+			else if(x == x->parent->right)
+			{
+				x = x->parent;
+				left_rotate(root,x);
+			}
+			x->parent->color=black;
+			x->parent->parent->color=red;
+			right_rotate(root,x->parent->parent);
+
+		}
+		else
+		{
+			y = x->parent->parent->left;
+			if(y->color == red)
+			{
+				x->parent->color = black;
+				y->color = black;
+				x->parent->parent->color = red;
+				x = x->parent->parent;
+			}
+			else if(x == x->parent->left)
+			{
+				x = x->parent;
+				right_rotate(root,x);
+			}
+			x->parent->color=black;
+			x->parent->parent->color=red;
+			left_rotate(root,x->parent->parent);
+		}
+	}
+
+}
+void left_rotate(node **root,node *x)
+{
+	node *y;
+	y=x->right;
+	x->right = y->left;
+	if(y->left !=NULL)
+	{
+		y->left->parent = x;
+
+	}
+	y->parent = x->parent;
+	if(x->parent == NULL)
+	{
+		(*root) = y;
+	}
+	else if(x == x->parent->left)
+	{
+		x->parent->left = y;
+
+	}
+	else
+	{
+		x->parent->right = y;
+	}
+	y->left = x;
+	x->parent = y;
 
 }
