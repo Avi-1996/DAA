@@ -39,13 +39,12 @@ class Student:
                          f=open("info.txt","r")
                          lines = f.readlines()
                          for line in lines:
-                              nam,number = line.split("&")
-                              print(num,"         ",number)
-                              if num == number:
+                              name,number = line.split("&")
+                              if number.strip()== str(num):
                                    print()
                                    print()
                                    print("\t\tNUMBER found")
-                                   print("\t\ttheName Of Student Is ",nam)
+                                   print("\t\ttheName Of Student Is ",name)
                                    flag=1
                                    break;
                          if flag == 0:
